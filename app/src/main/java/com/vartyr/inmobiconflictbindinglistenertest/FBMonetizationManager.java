@@ -14,6 +14,8 @@ public class FBMonetizationManager implements MonetizationManager {
     private static final FBMonetizationManager ourInstance = new FBMonetizationManager();
     private static String LOG_TAG = getInstance().getClass().getSimpleName();
 
+    private Boolean isSDKInitialized = false;
+
     private InterstitialAd interstitialAd;
     private Boolean isLoaded;
     private String placementID;
@@ -30,34 +32,49 @@ public class FBMonetizationManager implements MonetizationManager {
     @Override
     public void initialize(Context context) {
 
-        // Initialize the Audience Network SDK
-        AudienceNetworkAds.initialize(context);
+        if (!isSDKInitialized){
 
-        interstitialAd = null;
-        isLoaded = false;
-        placementID = "";
+            // Initialize the Audience Network SDK
+            AudienceNetworkAds.initialize(context);
 
-        Log.d(LOG_TAG, "this Manager has been initialized");
+            interstitialAd = null;
+            isLoaded = false;
+            placementID = "";
+
+            Log.d(LOG_TAG, "this Manager has been initialized, setting isSDKInitialized to true");
+
+            isSDKInitialized = true;
+        }
+
+        Log.d(LOG_TAG, "this Manager has already been initialized");
+
 
     }
 
     @Override
-    public void loadAndShowInterstitialAd(Context context) {
+    public Boolean isInitialized() {
+        return isSDKInitialized;
+    }
+
+    @Override
+
+    // Set up our listeners.
+
+    public void setupInterstitialAd(Context context) {
 
         interstitialAd = new InterstitialAd(context, getPlacementIDForManager());
-
 
         interstitialAd.setAdListener(new InterstitialAdListener() {
             @Override
             public void onInterstitialDisplayed(Ad ad) {
                 // Interstitial ad displayed callback
-                Log.d(LOG_TAG, "loadAndShowInterstitialAd - Interstitial ad displayed.");
+                Log.d(LOG_TAG, "Interstitial ad displayed.");
             }
 
             @Override
             public void onInterstitialDismissed(Ad ad) {
                 // Interstitial dismissed callback
-                Log.d(LOG_TAG, "loadAndShowInterstitialAd - Interstitial ad dismissed.");
+                Log.d(LOG_TAG, "Interstitial ad dismissed.");
 
                 isLoaded = false;
             }
@@ -65,13 +82,13 @@ public class FBMonetizationManager implements MonetizationManager {
             @Override
             public void onError(Ad ad, AdError adError) {
                 // Ad error callback
-                Log.e(LOG_TAG, "loadAndShowInterstitialAd - Interstitial ad failed to load: " + adError.getErrorMessage());
+                Log.e(LOG_TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
             }
 
             @Override
             public void onAdLoaded(Ad ad) {
                 // Interstitial ad is loaded and ready to be displayed
-                Log.d(LOG_TAG, "loadAndShowInterstitialAd - Interstitial ad is loaded, calling show");
+                Log.d(LOG_TAG, "Interstitial ad is loaded, calling show");
 
                 isLoaded = true;
 
@@ -82,84 +99,26 @@ public class FBMonetizationManager implements MonetizationManager {
             @Override
             public void onAdClicked(Ad ad) {
                 // Ad clicked callback
-                Log.d(LOG_TAG, "loadAndShowInterstitialAd - Interstitial ad clicked!");
+                Log.d(LOG_TAG, "Interstitial ad clicked!");
             }
 
             @Override
             public void onLoggingImpression(Ad ad) {
                 // Ad impression logged callback
-                Log.d(LOG_TAG, "loadAndShowInterstitialAd - Interstitial ad impression logged!");
+                Log.d(LOG_TAG, "Interstitial ad impression logged!");
             }
         });
 
+        Log.d(LOG_TAG, "Interstitial is ready!");
 
-        interstitialAd.loadAd();
 
     }
 
     @Override
-    public void preloadInterstitialAd(Context context) {
-
-        interstitialAd = new InterstitialAd(context, getPlacementIDForManager());
-
-        interstitialAd.setAdListener(new InterstitialAdListener() {
-            @Override
-            public void onInterstitialDisplayed(Ad ad) {
-                // Interstitial ad displayed callback
-                Log.d(LOG_TAG, " preloadInterstitialAd - Interstitial ad displayed.");
-            }
-
-            @Override
-            public void onInterstitialDismissed(Ad ad) {
-                // Interstitial dismissed callback
-                Log.d(LOG_TAG, "preloadInterstitialAd - Interstitial ad dismissed.");
-
-                isLoaded = false;
-            }
-
-            @Override
-            public void onError(Ad ad, AdError adError) {
-                // Ad error callback
-                Log.e(LOG_TAG, "preloadInterstitialAd - Interstitial ad failed to load: " + adError.getErrorMessage());
-            }
-
-            @Override
-            public void onAdLoaded(Ad ad) {
-                // Interstitial ad is loaded and ready to be displayed
-                Log.d(LOG_TAG, "preloadInterstitialAd - Interstitial ad is loaded and ready to be displayed!");
-
-                isLoaded = true;
-
-                // Don't show the ad.
-            }
-
-            @Override
-            public void onAdClicked(Ad ad) {
-                // Ad clicked callback
-                Log.d(LOG_TAG, "preloadInterstitialAd - Interstitial ad clicked!");
-            }
-
-            @Override
-            public void onLoggingImpression(Ad ad) {
-                // Ad impression logged callback
-                Log.d(LOG_TAG, "preloadInterstitialAd - Interstitial ad impression logged!");
-            }
-        });
-
-
-        interstitialAd.loadAd();
-    }
-
-    @Override
-    public void showInterstitialAd(Context context) {
-
-        if (interstitialAd != null && isLoaded){
-            interstitialAd.show();
-            Log.d(LOG_TAG, "showInterstitialAd success");
-        } else {
-            Log.e(LOG_TAG, "showInterstitialAd failed - interstitial Ad was null or wasn't loaded");
+    public void loadInterstitialAd() {
+        if (interstitialAd != null){
+            interstitialAd.loadAd();
         }
-
     }
 
     @Override

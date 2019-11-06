@@ -5,14 +5,14 @@ import android.content.Context;
 public interface MonetizationManager {
 
     public void initialize(Context context);
-    public void loadAndShowInterstitialAd(Context context);
-    public void preloadInterstitialAd(Context context);
-    public void showInterstitialAd(Context context);
-
+    public void setupInterstitialAd(Context context);
+    public void loadInterstitialAd();
     public Boolean isInterstitialLoaded();
 
     public void setPlacementIDForManager(String plc);
     public String getPlacementIDForManager();
+
+    public Boolean isInitialized();
 
     public void cleanup();
 
