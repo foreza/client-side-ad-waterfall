@@ -1,9 +1,8 @@
-package com.vartyr.inmobiconflictbindinglistenertest;
+package com.vartyr.basicWaterfall;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 

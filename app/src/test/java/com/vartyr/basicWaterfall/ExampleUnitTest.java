@@ -1,4 +1,4 @@
-package com.vartyr.inmobiconflictbindinglistenertest;
+package com.vartyr.basicWaterfall;
 
 import org.junit.Test;
 
