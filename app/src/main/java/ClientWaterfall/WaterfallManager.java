@@ -1,6 +1,7 @@
 package ClientWaterfall;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 
@@ -62,26 +63,35 @@ public class WaterfallManager implements OnWaterfallCallbackHandler {
     public void onFail(String log, String error) {
         Log.e(LOG_TAG, "====== onFail from AdManager, continue waterfall - failure from: " + log + " with error: " + error);
         waterfallPosition++;
-        doNextWaterfallCall(waterfallPosition);
+        doNextWaterfallCallWithDelay(3000);
+
     }
 
     public void beginAdLoadShowWaterfall(){
         resetWaterfallState();
         Log.d(LOG_TAG, "======== beginAdLoadShowWaterfall - loading partners starting from the top ========");
-        doNextWaterfallCall(waterfallPosition);
+        doNextWaterfallCallWithDelay(0);
     }
 
 
-    public void doNextWaterfallCall(int index){
-        if (index < adWaterfall.size()){
-            Log.d(LOG_TAG, "======== doNextWaterfallCall - loading partner: " + (index+1) + "/" + adWaterfall.size() + " ========");
-            adWaterfall.get(index).loadInterstitialAd();
+    public void doNextWaterfallCallWithDelay(long delay){
+
+        if (waterfallPosition < adWaterfall.size()){
+            Log.d(LOG_TAG, "======== doNextWaterfallCall - loading partner: " + (waterfallPosition+1) + "/" + adWaterfall.size() + " ========");
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adWaterfall.get(waterfallPosition).loadInterstitialAd();
+            }
+        }, delay);
+
 
         } else
             Log.e(LOG_TAG, "======== doNextWaterfallCall - no more partners ========");
-
-
     }
+
 
 
     public void resetWaterfallState(){
