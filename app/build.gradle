@@ -19,7 +19,10 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // InMobi SDK aar
+    implementation fileTree(dir: 'libs', include: ['*.aar'])
+
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
@@ -28,6 +31,13 @@ dependencies {
 
     // Audience Network 5.5
     implementation 'com.facebook.android:audience-network-sdk:5.5.0'
+
+
+    implementation 'com.squareup.picasso:picasso:2.71828'                               // InMobi dependency
+    implementation 'com.android.support:recyclerview-v7:28.0.0'                         // Note: this is required for InMobi interstitials, and not in doc
+    implementation 'com.google.android.gms:play-services-ads-identifier:16.0.0'         // This allows us to get the AAID (Android advertising ID)
+    implementation 'com.google.android.gms:play-services-basement:16.1.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
 
 
 

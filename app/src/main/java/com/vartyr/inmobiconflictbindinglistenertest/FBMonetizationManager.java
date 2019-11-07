@@ -9,18 +9,26 @@ import com.facebook.ads.AudienceNetworkAds;
 import com.facebook.ads.InterstitialAd;
 import com.facebook.ads.InterstitialAdListener;
 
-public class FBMonetizationManager implements MonetizationManager {
+public class FBMonetizationManager extends BaseMonetizationManager {
 
     private static final FBMonetizationManager ourInstance = new FBMonetizationManager();
-    private static String LOG_TAG = getInstance().getClass().getSimpleName();
+
+    private OnWaterfallCallbackHandler listener;
+
+
+    private String LOG_TAG = getClass().getSimpleName();
 
     private Boolean isSDKInitialized = false;
 
-    private InterstitialAd interstitialAd;
+    private static InterstitialAd interstitialAd;               // We should only ever refer to this instance of interstitial Ad? will this break stuff?
     private Boolean isLoaded;
-    private String placementID;
+    private String placementID = "1785700261650984_2495620377325632"; // CAROUSEL_IMG_SQUARE_LINK#1785700261650984_2495620377325632
 
-
+    @Override
+    public void setCustomListener(OnWaterfallCallbackHandler handler) {
+        Log.d(LOG_TAG, "setCustomListener to handler");
+        this.listener = handler;
+    }
 
     public static FBMonetizationManager getInstance() {
         return ourInstance;
@@ -39,7 +47,6 @@ public class FBMonetizationManager implements MonetizationManager {
 
             interstitialAd = null;
             isLoaded = false;
-            placementID = "";
 
             Log.d(LOG_TAG, "this Manager has been initialized, setting isSDKInitialized to true");
 
@@ -83,6 +90,7 @@ public class FBMonetizationManager implements MonetizationManager {
             public void onError(Ad ad, AdError adError) {
                 // Ad error callback
                 Log.e(LOG_TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
+                listener.onFail(LOG_TAG, adError.getErrorMessage());
             }
 
             @Override
@@ -94,6 +102,8 @@ public class FBMonetizationManager implements MonetizationManager {
 
                 // Show the ad
                 interstitialAd.show();
+
+                listener.onSuccess(LOG_TAG);
             }
 
             @Override
@@ -109,16 +119,23 @@ public class FBMonetizationManager implements MonetizationManager {
             }
         });
 
-        Log.d(LOG_TAG, "Interstitial is ready!");
+        Log.d(LOG_TAG, "Interstitial Config is ready!");
 
 
     }
 
     @Override
     public void loadInterstitialAd() {
+
+        Log.d(LOG_TAG, "loadInterstitialAd called!");
+
+
         if (interstitialAd != null){
             interstitialAd.loadAd();
+        } else {
+            Log.e(LOG_TAG, "interstitialAd is null!");
         }
+
     }
 
     @Override
@@ -126,12 +143,6 @@ public class FBMonetizationManager implements MonetizationManager {
         return isLoaded;
     }
 
-    @Override
-    public void setPlacementIDForManager(String plc) {
-        placementID = plc;
-
-        Log.d(LOG_TAG, "setPlacementIDForManager: " + plc);
-    }
 
     @Override
     public String getPlacementIDForManager() {
