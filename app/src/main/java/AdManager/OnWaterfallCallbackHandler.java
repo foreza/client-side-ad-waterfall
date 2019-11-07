@@ -1,4 +1,4 @@
-package com.vartyr.inmobiconflictbindinglistenertest;
+package AdManager;
 
 public interface OnWaterfallCallbackHandler {
 
