@@ -33,8 +33,8 @@ public class WaterfallManager implements OnWaterfallCallbackHandler {
 
             adWaterfall = new ArrayList<>();
 
-            adWaterfall.add(0, FBMonetizationManager.getInstance());
-            adWaterfall.add(1, InMobiMonetizationManager.getInstance());
+            adWaterfall.add(0, InMobiMonetizationManager.getInstance());
+            adWaterfall.add(1, FBMonetizationManager.getInstance());
 
             isSDKInitialized = true;
 
@@ -47,8 +47,8 @@ public class WaterfallManager implements OnWaterfallCallbackHandler {
 
         Log.d(LOG_TAG, "====== beginAdLoadShowWaterfall - setting up partners ======== ");
 
-        for (int i = 0; i < adWaterfall.size(); ++i){
-            adWaterfall.get(i).setupInterstitialAd(context);
+        for (int i = 0; i < adWaterfall.size(); ++i){ adWaterfall.get(i).setupInterstitialAd(context);
+
         }
 
     }
@@ -78,6 +78,7 @@ public class WaterfallManager implements OnWaterfallCallbackHandler {
 
         if (waterfallPosition < adWaterfall.size()){
             Log.d(LOG_TAG, "======== doNextWaterfallCall - loading partner: " + (waterfallPosition+1) + "/" + adWaterfall.size() + " ========");
+
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
