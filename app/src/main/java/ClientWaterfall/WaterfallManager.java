@@ -33,6 +33,7 @@ public class WaterfallManager implements OnWaterfallCallbackHandler {
 
             adWaterfall = new ArrayList<>();
 
+            // Arrange our "ad waterfall" logic here
             adWaterfall.add(0, InMobiMonetizationManager.getInstance());
             adWaterfall.add(1, FBMonetizationManager.getInstance());
 
@@ -47,8 +48,8 @@ public class WaterfallManager implements OnWaterfallCallbackHandler {
 
         Log.d(LOG_TAG, "====== beginAdLoadShowWaterfall - setting up partners ======== ");
 
-        for (int i = 0; i < adWaterfall.size(); ++i){ adWaterfall.get(i).setupInterstitialAd(context);
-
+        for (int i = 0; i < adWaterfall.size(); ++i){
+            adWaterfall.get(i).setupInterstitialAd(context);
         }
 
     }

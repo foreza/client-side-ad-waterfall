@@ -15,7 +15,6 @@ import java.util.List;
 public class InMobiMonetizationManager extends BaseMonetizationManager{
     private static final InMobiMonetizationManager instance = new InMobiMonetizationManager();
 
-
     private OnWaterfallCallbackHandler listener;
 
     private String LOG_TAG = getClass().getSimpleName();
@@ -24,7 +23,7 @@ public class InMobiMonetizationManager extends BaseMonetizationManager{
 
     private AerServInterstitial interstitial;
     private Boolean isLoaded;
-    private String placementID = "1067685";
+    private String placementID = "1067685";                 // Test placement ID from production
 
     private AerServConfig interstitialConfig;
 
@@ -52,7 +51,6 @@ public class InMobiMonetizationManager extends BaseMonetizationManager{
 
         if (!isSDKInitialized){
 
-            // Initialize the InMobi SDK
             AerServSdk.init(context,"1021434");     // TODO: Extend the initialize interface to take in an additional param?
 
             interstitial = null;
@@ -79,7 +77,6 @@ public class InMobiMonetizationManager extends BaseMonetizationManager{
     }
 
     public Activity getActivityFromContext(){
-
         // Downcast our context to an activity so we can utilize that.
         return (Activity)ContextRef;
     }
@@ -119,7 +116,6 @@ public class InMobiMonetizationManager extends BaseMonetizationManager{
                                         Log.e(LOG_TAG, "PROFILE: AD_FAILED with message:" + args.get(0).toString());
                                     }
                                     reportFailure();
-//                                    listener.onFail(LOG_TAG, "AD_FAILED from INMOBI");    // Let the listener know that we've failed
                                     break;
                                 case VC_READY:
                                     break;
@@ -128,7 +124,6 @@ public class InMobiMonetizationManager extends BaseMonetizationManager{
                                 case LOAD_TRANSACTION:
                                     Log.d(LOG_TAG, "PROFILE: LOAD_TRANSACTION");
                                     reportSuccess();
-//                                    listener.onSuccess(LOG_TAG);                      // Let the listener know we've succeeded
                                     break;
                                 case SHOW_TRANSACTION:
                                     Log.d(LOG_TAG, "PROFILE: SHOW_TRANSACTION");
@@ -163,26 +158,10 @@ public class InMobiMonetizationManager extends BaseMonetizationManager{
 
     }
 
-    @Override
-    public Boolean isInterstitialLoaded() {
-        return isLoaded;        // Not hooked in
-    }
-
 
     @Override
     public String getPlacementIDForManager() {
         return placementID;
     }
 
-    @Override
-    public Boolean isInitialized() {
-        return isSDKInitialized;
-    }
-
-    @Override
-    public void cleanup() {
-
-        // DO something here if needed
-
-    }
 }

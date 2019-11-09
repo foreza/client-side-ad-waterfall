@@ -23,22 +23,8 @@ public class BaseMonetizationManager implements MonetizationManager {
     public void loadInterstitialAd() { }
 
     @Override
-    public Boolean isInterstitialLoaded() {
-        return null;
-    }
-
-    @Override
     public String getPlacementIDForManager() {
         return null;
     }
 
-    @Override
-    public Boolean isInitialized() {
-        return null;
-    }
-
-    @Override
-    public void cleanup() {
-
-    }
 }

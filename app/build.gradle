@@ -20,7 +20,7 @@ android {
 
 dependencies {
 
-    // InMobi SDK aar
+    // TODO: Include your InMobi SDK aar
     implementation fileTree(dir: 'libs', include: ['*.aar'])
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -29,17 +29,20 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    // Audience Network 5.5
+    // Facebook Audience Network SDK 5.5
     implementation 'com.facebook.android:audience-network-sdk:5.5.0'
 
+    // AdMob SDK Ads 17.2.1
+    implementation 'com.google.android.gms:play-services-ads:17.2.1'                    // (Version 17.2.1) AdMob SDK mediation
 
-    implementation 'com.squareup.picasso:picasso:2.71828'                               // InMobi dependency
-    implementation 'com.android.support:recyclerview-v7:28.0.0'                         // Note: this is required for InMobi interstitials, and not in doc
-    implementation 'com.google.android.gms:play-services-ads-identifier:16.0.0'         // This allows us to get the AAID (Android advertising ID)
+    // Additional InMobi SDK requirements
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.google.android.gms:play-services-ads-identifier:16.0.0'
     implementation 'com.google.android.gms:play-services-basement:16.1.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
 
-    implementation 'com.google.android.gms:play-services-ads:17.2.1'                    // (Version 17.2.1) AdMob SDK mediation
+
 
 
 

@@ -16,17 +16,15 @@ public class FBMonetizationManager extends BaseMonetizationManager {
 
     private OnWaterfallCallbackHandler listener;
 
-
-
     private String LOG_TAG = getClass().getSimpleName();
 
     private Boolean isSDKInitialized = false;
 
-    private static InterstitialAd interstitialAd;               // We should only ever refer to this instance of interstitial Ad? will this break stuff?
+    private static InterstitialAd interstitialAd;
     private Boolean isLoaded;
-//    private String placementID = "1785700261650984_2495620377325632"; // CAROUSEL_IMG_SQUARE_LINK#1785700261650984_2495620377325632
-    private String placementID = "CAROUSEL_IMG_SQUARE_LINK#1785700261650984_2495620377325632";
 
+//    private String placementID = "1785700261650984_2495620377325632"; // CAROUSEL_IMG_SQUARE_LINK#1785700261650984_2495620377325632
+    private String placementID = "CAROUSEL_IMG_SQUARE_LINK#1785700261650984_2495620377325632";          // This will always serve a test ad that will fill.
 
     private Context ContextRef;
 
@@ -73,13 +71,6 @@ public class FBMonetizationManager extends BaseMonetizationManager {
     }
 
 
-    @Override
-    public Boolean isInitialized() {
-        return isSDKInitialized;
-    }
-
-    @Override
-
     // Set up our listeners.
 
     public void setupInterstitialAd(Context context) {
@@ -107,16 +98,6 @@ public class FBMonetizationManager extends BaseMonetizationManager {
             @Override
             public void onError(Ad ad, AdError adError) {
                 // Ad error callback
-
-
-
-                getActivityFromContext().runOnUiThread(new Runnable() {
-                                                           @Override
-                                                           public void run() {
-
-                                                           }
-                                                       });
-
                 Log.e(LOG_TAG, "Interstitial ad failed to load: " + adError.getErrorMessage());
                 listener.onFail(LOG_TAG, adError.getErrorMessage());
             }
@@ -130,7 +111,6 @@ public class FBMonetizationManager extends BaseMonetizationManager {
 
                 // Show the ad
                 interstitialAd.show();
-
                 listener.onSuccess(LOG_TAG);
             }
 
@@ -157,7 +137,6 @@ public class FBMonetizationManager extends BaseMonetizationManager {
 
         Log.d(LOG_TAG, "loadInterstitialAd called!");
 
-
         if (interstitialAd != null){
             interstitialAd.loadAd();
         } else {
@@ -166,22 +145,10 @@ public class FBMonetizationManager extends BaseMonetizationManager {
 
     }
 
-    @Override
-    public Boolean isInterstitialLoaded() {
-        return isLoaded;
-    }
-
 
     @Override
     public String getPlacementIDForManager() {
         return placementID;
-    }
-
-
-    public void cleanup() {
-        if (interstitialAd != null) {
-            interstitialAd.destroy();
-        }
     }
 
 }

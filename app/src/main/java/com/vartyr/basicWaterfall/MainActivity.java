@@ -12,10 +12,7 @@ import ClientWaterfall.WaterfallManager;
 
 public class MainActivity extends AppCompatActivity{
 
-    private String LOG_TAG = getClass().getSimpleName();
-
     private WaterfallManager waterfallManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +30,10 @@ public class MainActivity extends AppCompatActivity{
 
 
     public void triggerAction(View view){
+
         waterfallManager.prepareAdWaterfall(this);
         waterfallManager.beginAdLoadShowWaterfall();
+
     }
 
 }
